@@ -1,0 +1,341 @@
+Documentatie 
+Main Class
+package main;
+
+import data.EuromoonData;
+import model.Passagier;
+import model.Personeel;
+import model.Reis;
+import model.Ticket;
+import model.Treinen;
+import service.Reisbeheer;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+
+/**
+ * Main class voor de Euromoon applicatie.
+ * Deze applicatie biedt functionaliteit voor het boeken van treinreizen.
+ * Voorbeelddata is gegenereerd met de hulp van Mistral AI.
+ */
+public class Main {
+    // De rest van de code blijft hetzelfde
+}
+
+EuromoonData Class
+package data;
+
+import model.Personeel;
+import model.Reis;
+import model.Treinen;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.*;
+
+/**
+ * Utility class voor het initialiseren van voorbeelddata voor de applicatie.
+ * Bevat methodes om voorbeeldtreinen, personeel en reizen te maken.
+ */
+public class EuromoonData {
+
+    /**
+     * Maakt en retourneert een HashMap met voorbeeldtreinen.
+     *
+     * @return Een HashMap met voorbeeldtreinen.
+     */
+    public static HashMap<Integer, Treinen> treinenToevoegen() {
+        // Implementatie
+    }
+
+    /**
+     * Maakt en retourneert een HashMap met voorbeeldpersoneel.
+     *
+     * @return Een HashMap met voorbeeldpersoneel.
+     */
+    public static HashMap<String, Personeel> personeelToevoegen() {
+        // Implementatie
+    }
+
+    /**
+     * Maakt en retourneert een lijst met voorbeeldreizen.
+     *
+     * @param treinen  Een HashMap met treinen.
+     * @param personeel Een HashMap met personeel.
+     * @return Een lijst met voorbeeldreizen.
+     */
+    public static List<Reis> reizenToevoegen(HashMap<Integer, Treinen> treinen, HashMap<String, Personeel> personeel) {
+        // Implementatie
+    }
+}
+
+Reisbeheer Class
+package service;
+
+import model.Reis;
+
+import java.time.LocalDateTime;
+import java.util.*;
+
+/**
+ * Class voor het beheren van reizen.
+ * Bevat methodes om reizen toe te voegen, op te halen en te zoeken.
+ */
+public class Reisbeheer {
+    private List<Reis> reizen;
+
+    /**
+     * Maakt een nieuw Reisbeheer object aan.
+     */
+    public Reisbeheer() {
+        this.reizen = new ArrayList<>();
+    }
+
+    /**
+     * Voegt een reis toe aan de lijst van reizen.
+     *
+     * @param reis De reis die toegevoegd moet worden.
+     */
+    public void voegReisToe(Reis reis) {
+        reizen.add(reis);
+    }
+
+    /**
+     * Retourneert alle reizen.
+     *
+     * @return Een lijst met alle reizen.
+     */
+    public List<Reis> getAlleReizen() {
+        return reizen;
+    }
+
+    /**
+     * Zoekt reizen tussen twee stations.
+     *
+     * @param vertrekStation  Het vertrekstation.
+     * @param aankomstStation Het aankomststation.
+     * @return Een lijst met reizen tussen de gegeven stations.
+     */
+    public List<Reis> zoekReizen(String vertrekStation, String aankomstStation) {
+        // Implementatie
+    }
+
+    /**
+     * Zoekt reizen op basis van vertrektijd.
+     *
+     * @param start De begintijd van de zoekperiode.
+     * @param eind  De eindtijd van de zoekperiode.
+     * @return Een lijst met reizen die binnen de gegeven periode vertrekken.
+     */
+    public List<Reis> zoekReizenOpTijd(LocalDateTime start, LocalDateTime eind) {
+        // Implementatie
+    }
+}
+Reis Class
+package model;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+/**
+ * Class voor het representeren van een treinreis tussen twee stations.
+ * Bevat informatie over vertrek- en aankomsttijden, de trein, het personeel en de prijzen voor verschillende klassen.
+ */
+public class Reis {
+    private String vertrekStation;
+    private String aankomstStation;
+    private LocalDateTime vertrekTijd;
+    private LocalDateTime aankomTijd;
+    private Treinen trein;
+    private List<Personeel> personeel;
+    private double eersteKlassePrijs;
+    private double tweedeKlassePrijs;
+
+    /**
+     * Maakt een nieuwe Reis aan met de gegeven parameters.
+     *
+     * @param vertrekStation       Het vertrekstation van de reis.
+     * @param aankomstStation      Het aankomststation van de reis.
+     * @param vertrekTijd          De vertrektijd van de reis.
+     * @param aankomTijd           De aankomsttijd van de reis.
+     * @param trein                De trein die de reis uitvoert.
+     * @param personeel            Het personeel dat aan de reis gekoppeld is.
+     * @param eersteKlassePrijs    De prijs voor eerste klasse.
+     * @param tweedeKlassePrijs    De prijs voor tweede klasse.
+     */
+    public Reis(String vertrekStation, String aankomstStation, LocalDateTime vertrekTijd, LocalDateTime aankomTijd,
+                Treinen trein, List<Personeel> personeel, double eersteKlassePrijs, double tweedeKlassePrijs) {
+        this.vertrekStation = vertrekStation;
+        this.aankomstStation = aankomstStation;
+        this.vertrekTijd = vertrekTijd;
+        this.aankomTijd = aankomTijd;
+        this.trein = trein;
+        this.personeel = personeel;
+        this.eersteKlassePrijs = eersteKlassePrijs;
+        this.tweedeKlassePrijs = tweedeKlassePrijs;
+    }
+
+    /**
+     * Voegt een personeelslid toe aan de reis.
+     *
+     * @param p Het personeelslid dat toegevoegd moet worden.
+     */
+    public void addPersoneel(Personeel p) {
+        this.personeel.add(p);
+    }
+
+    /**
+     * Controleert of de reis voldoende personeel heeft.
+     *
+     * @return True als de reis minstens één bestuurder en drie stewards heeft, anders false.
+     */
+    public boolean heeftVoldoendePersoneel() {
+        int bestuurders = 0;
+        int stewards = 0;
+        for (Personeel p : personeel) {
+            if (p.getRol().equals("Bestuurder")) {
+                bestuurders++;
+            } else if (p.getRol().equals("Steward")) {
+                stewards++;
+            }
+        }
+        return bestuurders >= 1 && stewards >= 3;
+    }
+}
+
+Treinen Class
+package model;
+
+/**
+ * Class voor het representeren van een trein.
+ * Bevat informatie over het classnummer en het maximale aantal wagons.
+ */
+public class Treinen {
+    private int classNummer;
+    private short maxWagons;
+
+    /**
+     * Maakt een nieuwe Treinen aan met het gegeven classnummer en maximale aantal wagons.
+     *
+     * @param classNummer Het classnummer van de trein.
+     * @param maxWagons   Het maximale aantal wagons dat de trein kan hebben.
+     */
+    public Treinen(int classNummer, short maxWagons) {
+        this.classNummer = classNummer;
+        this.maxWagons = maxWagons;
+    }
+}
+
+Persoon Class
+package model;
+
+import java.time.LocalDate;
+
+/**
+ * Basisclass voor het representeren van een persoon.
+ * Deze class wordt uitgebreid door specifieke typen personen zoals Personeel en Passagier.
+ */
+public class Persoon {
+    private String naam;
+    private String achternaam;
+    private String rijksregisternummer;
+    private LocalDate geboortedatum;
+
+    /**
+     * Maakt een nieuwe Persoon aan met de gegeven naam, achternaam, rijksregisternummer en geboortedatum.
+     *
+     * @param naam              De voornaam van de persoon.
+     * @param achternaam        De achternaam van de persoon.
+     * @param rijksregisternummer Het rijksregisternummer van de persoon.
+     * @param geboortedatum     De geboortedatum van de persoon.
+     */
+    public Persoon(String naam, String achternaam, String rijksregisternummer, LocalDate geboortedatum) {
+        this.naam = naam;
+        this.achternaam = achternaam;
+        this.rijksregisternummer = rijksregisternummer;
+        this.geboortedatum = geboortedatum;
+    }
+}
+Personeel Class
+package model;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Class voor het representeren van personeel.
+ * Erft van de Persoon class en voegt functionaliteit toe voor certificeringen en rol.
+ */
+public class Personeel extends Persoon {
+    private String rol;
+    private List<String> certificeringen;
+
+    /**
+     * Maakt een nieuw Personeel object aan met de gegeven naam, achternaam, rijksregisternummer, geboortedatum en rol.
+     *
+     * @param naam              De voornaam van het personeelslid.
+     * @param achternaam        De achternaam van het personeelslid.
+     * @param rijksregisternummer Het rijksregisternummer van het personeelslid.
+     * @param geboortedatum     De geboortedatum van het personeelslid.
+     * @param rol               De rol van het personeelslid.
+     */
+    public Personeel(String naam, String achternaam, String rijksregisternummer, LocalDate geboortedatum, String rol) {
+        super(naam, achternaam, rijksregisternummer, geboortedatum);
+        this.rol = rol;
+        this.certificeringen = new ArrayList<>();
+    }
+
+    /**
+     * Voegt een certificering toe aan het personeelslid.
+     *
+     * @param certificering De certificering die toegevoegd moet worden.
+     */
+    public void addCertificeringen(String certificering) {
+        this.certificeringen.add(certificering);
+    }
+}
+Passagier Class
+package model;
+
+import java.time.LocalDate;
+
+/**
+ * Class voor het representeren van een passagier.
+ * Erft van de Persoon class en voegt functionaliteit toe om te controleren of de passagier ouder is dan 18.
+ */
+public class Passagier extends Persoon {
+
+    /**
+     * Maakt een nieuwe Passagier aan met standaardwaarden.
+     */
+    public Passagier() {
+        super("", "", "00.00.00-000.00", LocalDate.now());
+    }
+
+    /**
+     * Maakt een nieuwe Passagier aan met de gegeven naam, achternaam, rijksregisternummer en geboortedatum.
+     *
+     * @param naam              De voornaam van de passagier.
+     * @param achternaam        De achternaam van de passagier.
+     * @param rijksregisternummer Het rijksregisternummer van de passagier.
+     * @param geboortedatum     De geboortedatum van de passagier.
+     */
+    public Passagier(String naam, String achternaam, String rijksregisternummer, LocalDate geboortedatum) {
+        super(naam, achternaam, rijksregisternummer, geboortedatum);
+    }
+
+    /**
+     * Controleert of de passagier ouder is dan 18.
+     *
+     * @return True als de passagier ouder is dan 18, anders false.
+     */
+    public boolean IsOuderDan18() {
+        return java.time.Period.between(this.getGeboortedatum(), LocalDate.now()).getYears() >= 18;
+    }
+}
+
+
+
